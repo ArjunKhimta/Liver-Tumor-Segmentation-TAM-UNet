@@ -20,6 +20,32 @@ This project implements:
 
 The goal is to evaluate whether tumor-focused attention improves segmentation accuracy.
 
+## Dataset
+
+This project uses the **Liver Tumor Segmentation (LiTS) Dataset**, which contains abdominal CT scans with corresponding liver and tumor segmentation masks.
+
+The dataset is not included in this repository due to its large size (~30GB).
+
+The dataset used in this project was accessed through Kaggle:
+
+https://www.kaggle.com/datasets/andrewmvd/liver-tumor-segmentation
+
+Originally, the dataset comes from the **LiTS (Liver Tumor Segmentation) Challenge**, a benchmark dataset widely used in medical image segmentation research.
+
+After downloading the dataset, place the processed files in the following structure:
+
+data/
+└── raw
+
+After downloading, the folder structure should look similar to:
+
+data/raw/
+├── volume_pt1
+├── volume_pt2
+├── volume_pt3
+├── volume_pt4
+├── volume_pt5
+└── segmentations
 
 ## Architecture
 
@@ -40,35 +66,54 @@ The module helps the network to:
 
 
 ## Project Structure
-E-LilNet/
+
+```
+Liver-Tumor-Segmentation-TAM-UNet/
 │
 ├── data/
-│   ├── processed/
-│   │   ├── images
-│   │   └── masks
+│   ├── raw/
+│   │   ├── volume_pt1
+│   │   ├── volume_pt2
+│   │   ├── volume_pt3
+│   │   ├── volume_pt4
+│   │   ├── volume_pt5
+│   │   └── segmentations
+│   │
+│   ├── interim/
+│   │   ├── train
+│   │   ├── val
+│   │   └── test
+│   │
+│   └── processed/
+│       ├── images
+│       └── masks
 │
 ├── src/
-│   ├── dataset.py
-│   ├── models/
-│   │   ├── unet_baseline.py
-│   │   └── tam_unet.py
-│   │
+│   ├── dataset/
+│   ├── preprocessing/
 │   ├── training/
 │   │   └── train.py
-│   │
-│   └── evaluation/
-│       └── run_full_evaluation.py
+│   ├── evaluation/
+│   │   └── run_full_evaluation.py
+│   ├── inference/
+│   ├── explainability/
+│   └── models/
+│       ├── unet_baseline.py
+│       └── tam_unet.py
 │
 ├── outputs/
-│   ├── metrics
-│   ├── plots
-│   ├── logs
-│   └── predictions
+│   ├── metrics/
+│   └── plots/
 │
-├── baseline_best_model.pth
-├── tam_best_model.pth
+├── experiments/
+├── models/
+│
+├── train.py
+├── inference.py
+├── preprocess.py
 ├── requirements.txt
 └── README.md
+```
 
 
 
@@ -76,7 +121,9 @@ E-LilNet/
 
 To train the models run:
 
+```
 python -m src.training.train
+```
 
 This will train both the **Baseline U-Net** and **TAM-U-Net** models.
 
@@ -85,7 +132,9 @@ This will train both the **Baseline U-Net** and **TAM-U-Net** models.
 ## Evaluation
 
 Run the evaluation pipeline:
+```
 python -m src.evaluation.run_full_evaluation
+```
 
 This script:
 
@@ -137,7 +186,9 @@ The evaluation pipeline generates:
 - Precision–Recall curve
 
 All plots are saved in:
+```
 outputs/plots/
+```
 
 
 
